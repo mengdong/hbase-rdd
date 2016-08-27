@@ -4,7 +4,7 @@ sonatypeSettings
 
 name := "hbase-rdd"
 
-organization := "eu.unicredit"
+organization := "com.maprps"
 
 version := "0.7.1"
 
@@ -21,13 +21,12 @@ scalacOptions ++= Seq(
 org.scalastyle.sbt.ScalastylePlugin.Settings
 
 resolvers ++= Seq(
-  "Cloudera repos" at "https://repository.cloudera.com/artifactory/cloudera-repos",
-  "Cloudera releases" at "https://repository.cloudera.com/artifactory/libs-release"
+  "mapr repo" at "http://repository.mapr.com/maven"
 )
 
-val sparkVersion = "1.5.0"
-val hbaseVersion = "1.0.0-cdh5.5.1"
-val hadoopVersion = "2.6.0-cdh5.5.1"
+val sparkVersion = "1.6.1"
+val hbaseVersion = "1.1.1-mapr-1602"
+val hadoopVersion = "2.7.0-mapr-1602"
 
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
