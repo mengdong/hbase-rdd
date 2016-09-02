@@ -8,7 +8,7 @@ organization := "com.maprps"
 
 version := "0.7.1"
 
-crossScalaVersions := Seq("2.10.6", "2.11.8")
+crossScalaVersions := Seq("2.10.5", "2.11.8")
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -21,7 +21,7 @@ scalacOptions ++= Seq(
 org.scalastyle.sbt.ScalastylePlugin.Settings
 
 resolvers ++= Seq(
-  "mapr repo" at "http://repository.mapr.com/maven"
+  "mapr-repo" at "http://repository.mapr.com/maven"
 )
 
 val sparkVersion = "1.6.1"
@@ -49,6 +49,7 @@ libraryDependencies ++= Seq(
   "org.apache.hadoop" % "hadoop-mapreduce-client-jobclient" % hadoopVersion % "test" classifier "tests" exclude("javax.servlet", "servlet-api")
 )
 
+/*
 fork in Test := true
 
 publishMavenStyle := true
@@ -83,3 +84,4 @@ pomExtra := {
     </developer>
   </developers>
 }
+*/
