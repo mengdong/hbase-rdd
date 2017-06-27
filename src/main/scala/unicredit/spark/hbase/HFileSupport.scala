@@ -164,6 +164,8 @@ sealed abstract class HFileRDDHelper extends Serializable {
   protected def saveAsHFile(rdd: RDD[(ImmutableBytesWritable, KeyValue)], table: Table, regionLocator: RegionLocator, connection: Connection)(implicit config: HBaseConfig) = {
     val conf = config.get
     val job = Job.getInstance(conf, this.getClass.getName.split('$')(0))
+    job.setMapOutputKeyClass(classOf[ImmutableBytesWritable])
+    job.setMapOutputValueClass(classOf[KeyValue])
 
     HFileOutputFormat2.configureIncrementalLoad(job, table, regionLocator)
 
@@ -175,7 +177,7 @@ sealed abstract class HFileRDDHelper extends Serializable {
     try {
       rdd
         .saveAsNewAPIHadoopFile(hFilePath.toString, classOf[ImmutableBytesWritable], classOf[KeyValue], classOf[HFileOutputFormat2], job.getConfiguration)
-
+/*
       // prepare HFiles for incremental load
       // set folders permissions read/write/exec for all
       val rwx = new FsPermission("777")
@@ -201,13 +203,15 @@ sealed abstract class HFileRDDHelper extends Serializable {
       lih.doBulkLoad(hFilePath, new HTable(conf, table.getName))
       // this is available since hbase 1.1.x
       //lih.doBulkLoad(hFilePath, connection.getAdmin, table, regionLocator)
+*/
     } finally {
       connection.close()
 
-      fs.deleteOnExit(hFilePath)
+      fs.delete(hFilePath, true)
 
       // clean HFileOutputFormat2 stuff
-      fs.deleteOnExit(new Path(TotalOrderPartitioner.getPartitionFile(job.getConfiguration)))
+      fs.delete(new Path(TotalOrderPartitioner.getPartitionFile(job.getConfiguration)), true)
+
     }
   }
 }
